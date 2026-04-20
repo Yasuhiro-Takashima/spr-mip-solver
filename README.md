@@ -103,6 +103,18 @@ If you use this solver in your research, please cite:
   year = {2024},
   doi = {10.1109/VLSITSA60681.2024.10546370}
 }
+
+@article{takashima2026sprl,
+  author  = {Takashima, Yasuhiro},
+  title   = {Complexity and Exact Solution of Set-Pair Routing Problem},
+  journal = {IEICE Transactions on Fundamentals of Electronics, Communications and Computer Sciences},
+  volume  = {E109-A},
+  number  = {3},
+  pages   = {590--595},
+  month   = {March},
+  year    = {2026},
+  doi     = {10.1587/transfun.2025VLP0001}
+}
 ```
 
 For the benchmarks, please cite:
@@ -144,3 +156,10 @@ This work was presented at:
 > 2024 International VLSI Symposium on Technology, Systems and Applications (VLSI TSA),
 > 2024.
 > DOI: [10.1109/VLSITSA60681.2024.10546370](https://doi.org/10.1109/VLSITSA60681.2024.10546370)
+
+Also published as a journal article:
+
+> Yasuhiro TAKASHIMA, "Complexity and Exact Solution of Set-Pair Routing Problem,"
+> IEICE Transactions on Fundamentals of Electronics, Communications and Computer Sciences,
+> vol. E109-A, no. 3, pp. 590–595, March 2026.
+> DOI: [10.1587/transfun.2025VLP0001](https://doi.org/10.1587/transfun.2025VLP0001)
