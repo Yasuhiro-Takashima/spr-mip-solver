@@ -16,6 +16,10 @@
 #   PYTHON='uv run python' bash scripts/measure_model_size.sh
 #   BENCHES='B3 S3' bash scripts/measure_model_size.sh
 #   OUT=results/model_size_test.csv bash scripts/measure_model_size.sh
+#
+#   # Cap Gurobi parallelism if the host is memory-constrained.
+#   # 0 = Gurobi default (= all cores); a positive integer caps it.
+#   THREADS=4 bash scripts/measure_model_size.sh
 
 set -uo pipefail
 
@@ -25,6 +29,7 @@ cd "${SCRIPT_DIR}/.."
 PYTHON="${PYTHON:-python}"
 BENCH_DIR="${BENCH_DIR:-benchmarks}"
 OUT="${OUT:-results/model_size.csv}"
+THREADS="${THREADS:-0}"
 
 if [[ -n "${BENCHES:-}" ]]; then
     read -ra BENCH_LIST <<< "${BENCHES}"
@@ -51,6 +56,7 @@ Model-size probe (build only, no solve)
   Conditions (${#CONDITIONS[@]}) : $(printf '%s ' "${CONDITIONS[@]%%|*}")
   Output         : ${OUT}
   Python         : ${PYTHON}
+  Threads        : ${THREADS}
   Started        : $(date)
 ===================================================================
 EOF
@@ -71,6 +77,7 @@ for bench in "${BENCH_LIST[@]}"; do
         ${PYTHON} sprl.py "${bench_path}" \
             ${flags} \
             --measure-only \
+            --gurobi-threads "${THREADS}" \
             --condition "${label}" \
             --results "${OUT}"
     done

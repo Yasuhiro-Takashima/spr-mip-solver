@@ -20,6 +20,12 @@
 #   # Custom output path
 #   OUT=results/ablation_2026-04-30.csv bash scripts/run_ablation.sh
 #
+#   # Cap Gurobi parallelism to avoid OOM on memory-constrained hosts
+#   # (e.g. Linux servers where the default concurrent root-LP across
+#   # all cores can exhaust RAM and trigger the OOM killer). 0 lets
+#   # Gurobi pick (= all cores); a small positive integer caps it.
+#   THREADS=4 bash scripts/run_ablation.sh
+#
 # For long runs (S3 baseline can take 20+ minutes), prefer:
 #   nohup bash scripts/run_ablation.sh > ablation.log 2>&1 &
 #
@@ -37,6 +43,7 @@ PYTHON="${PYTHON:-python}"
 BENCH_DIR="${BENCH_DIR:-benchmarks}"
 OUT="${OUT:-results/ablation.csv}"
 TIME_LIMIT="${TIME_LIMIT:-600}"
+THREADS="${THREADS:-0}"
 
 # Benchmark list: env override, or the full APCCAS 2026 set.
 if [[ -n "${BENCHES:-}" ]]; then
@@ -68,6 +75,7 @@ APCCAS 2026 ablation matrix
   Output          : ${OUT}
   Time limit/call : ${TIME_LIMIT}s
   Python          : ${PYTHON}
+  Threads         : ${THREADS}
   Started         : $(date)
 ===================================================================
 EOF
@@ -89,6 +97,7 @@ for bench in "${BENCH_LIST[@]}"; do
         # individual CLI tokens.
         ${PYTHON} sprl.py "${bench_path}" \
             ${flags} \
+            --gurobi-threads "${THREADS}" \
             --time-limit "${TIME_LIMIT}" \
             --condition "${label}" \
             --results "${OUT}"
